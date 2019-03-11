@@ -9,13 +9,13 @@ function home(){
 }
 function listView(){
   return (
-    <div>
+    <React.Fragment>
        <h2>semua user</h2>
        <ul>
          <a href="user/hilman">Hilman</a> <br/>
          <a href="user/andreas">Andreas</a>
        </ul>
-    </div>
+    </React.Fragment>
   )
 }
 function noMatch(){
