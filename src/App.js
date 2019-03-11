@@ -5,43 +5,34 @@ import List from './list';
 
 
 class App extends Component {
-
   constructor(props){
     super(props)
     this.state = {
-      todoItem: '',
-      items: []
+      items: [],
+      isLoading: true
     }
   }
 
-  handleSubmit = (event) => {
-    event.preventDefault()
-    this.setState({
-      items: [...this.state.items, this.state.todoItem],
-      todoItem: ''
-    })
-  }
-
-  handleChange = (event) => {
-    this.setState({
-      todoItem: event.target.value
-    })
+  componentDidMount(){
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then(response => response.json())
+      .then(data => this.setState({items:data, isLoading:false}))
   }
 
   render() {
+    const {items, isLoading} = this.state
+    if(isLoading)
+    {
+      return <p>Loading....</p>
+    }
     return (
-      // <div className="App">
-      //   <header className="App-header">
-      //     <img src={logo} className="App-logo" alt="logo" />
-      //   </header>
-      // </div>
-      <div>
-        <form onSubmit={this.handleSubmit}>
-          <input value={this.state.todoItem} onChange={this.handleChange}/>
-          <button>Add</button>
-        </form>
-        <List items={this.state.items} />
-      </div>
+     <div>
+        <ul>
+          { items.map((item, index) => 
+            <li key={index}>{item.name}</li>
+           ) }
+        </ul>
+     </div>
     );
   }
 }
